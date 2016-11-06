@@ -16,7 +16,7 @@ public class MemeGenerator {
 	private JPanel contentPane, selectionPane,textPane;
 	private JLabel title;
 	private JLabel imageLabel;
-	private JButton importButton,selectButton, editTop, editBot,save, export;
+	private JButton importButton,selectButton, editTop, editBot,save, export,dankify;
 	private JFileChooser fc; 
 	private ArrayList<ImageIcon> images;
 	private ArrayList<BufferedImage> bufferedImages;
@@ -52,7 +52,6 @@ public class MemeGenerator {
 					selectedImage = (ImageIcon) button.getIcon(); 
 					for(int i=0; i<4;i++){
 						if(selectedImage == images.get(i)){
-							System.out.println("yup");
 							imageIndex = i;
 						}
 					}
@@ -170,6 +169,7 @@ public class MemeGenerator {
 				TEXT_INT = TOP_TEXT;
 				editTop.setEnabled(false);
 				export.setEnabled(true);
+				dankify.setEnabled(true);
 			}
 		});
 		editTop.setEnabled(false);
@@ -183,6 +183,7 @@ public class MemeGenerator {
 				TEXT_INT = BOTTOM_TEXT;
 				editBot.setEnabled(false);
 				export.setEnabled(true);
+				dankify.setEnabled(true);
 			}
 		});
 		editBot.setEnabled(false);
@@ -211,6 +212,24 @@ public class MemeGenerator {
 			}
 		});
 		export.setEnabled(false);
+		
+		dankify = new JButton("Dankify B]");
+		dankify.setAlignmentX(Component.CENTER_ALIGNMENT);
+		dankify.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!imported){
+					dankify(bufferedImages.get(imageIndex));
+					ImageIcon icon = new ImageIcon(bufferedImages.get(imageIndex));
+					imageLabel.setIcon(icon);
+				}
+				else{
+					dankify(selectedBuffer);
+					ImageIcon icon = new ImageIcon(selectedBuffer);
+					imageLabel.setIcon(icon);
+				}
+			}
+		});
+		dankify.setEnabled(false);
 
 
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.PAGE_AXIS));
@@ -221,6 +240,7 @@ public class MemeGenerator {
 		contentPane.add(editTop);
 		contentPane.add(editBot);
 		contentPane.add(export);
+		contentPane.add(dankify);
 
 		textFrame.setContentPane(textPane);
 		textFrame.setPreferredSize(new Dimension(300,100));
@@ -233,12 +253,13 @@ public class MemeGenerator {
 		selectionFrame.setVisible(false);
 		selectionFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(contentPane);
-		frame.setPreferredSize(new Dimension(600,640));
+		frame.setPreferredSize(new Dimension(600,670));
 		frame.pack();
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
+
 	private void setImages(){
 		createAndAddIcon("src/awkwardPenguin.jpeg");
 		createAndAddIcon("src/grumpyCat.jpg");
@@ -277,10 +298,8 @@ public class MemeGenerator {
 		FontMetrics metrics = g.getFontMetrics(font);
 		int length = metrics.stringWidth(s);
 		while(length > 450){
-			System.out.println(length);
 			if(fontSize>12)
 				fontSize--;
-			System.out.println("Font size: " + fontSize);
 			font = new Font("Impact", Font.PLAIN, fontSize);
 			g.setFont(font);
 			metrics = g.getFontMetrics(font);
@@ -293,7 +312,18 @@ public class MemeGenerator {
 		else{
 			g.drawString(s, x, 423);	
 		}
-
+	}
+	private void dankify(BufferedImage img){
+		Graphics g = img.getGraphics();
+		g.setFont(new Font("Comic Sans",Font.BOLD,20));
+		String[] comments = {"wow", "such meme" , "COOL","amaze"};
+		Color[] colors = {Color.CYAN, Color.PINK, Color.magenta, Color.GREEN};
+		for(int i=0; i<comments.length;i++){
+			int x = (int) (Math.random()*400);
+			int y = (int) (Math.random()*400) + 20;
+			g.setColor(colors[(int) (Math.random()*colors.length)]);
+			g.drawString(comments[i], x, y);
+		}
 	}
 	public static void main (String args[]){
 		new MemeGenerator();

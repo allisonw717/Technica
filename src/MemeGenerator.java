@@ -78,7 +78,7 @@ public class MemeGenerator {
 		imageLabel = new JLabel("Photo will appear here");
 		imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		title = new JLabel("Meme Generator");
+		title = new JLabel("Meme Generator: Optionally Dank");
 		title.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		selectButton = new JButton("Select Image");
@@ -104,7 +104,7 @@ public class MemeGenerator {
 				JFrame fileFrame = new JFrame();
 				if (fc == null){
 					fc = new JFileChooser();
-					fc.addChoosableFileFilter(new FileNameExtensionFilter("Image Files","jpg","png","tif"));
+					fc.addChoosableFileFilter(new FileNameExtensionFilter("Image Files","jpeg", "jpg","png","tif"));
 					fc.setAcceptAllFileFilterUsed(false);
 					int returnVal = fc.showDialog(fileFrame,"Use Image");
 					if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -180,6 +180,7 @@ public class MemeGenerator {
 		editBot.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textFrame.setVisible(true);
+				textField.requestFocusInWindow();
 				TEXT_INT = BOTTOM_TEXT;
 				editBot.setEnabled(false);
 				export.setEnabled(true);
@@ -194,7 +195,7 @@ public class MemeGenerator {
 			public void actionPerformed(ActionEvent e) {
 				File saveFile = new File("ExportedMeme.png");
 				JFileChooser chooser = new JFileChooser();
-				chooser.addChoosableFileFilter(new FileNameExtensionFilter("Image Files","jpg","png","tif"));
+				chooser.addChoosableFileFilter(new FileNameExtensionFilter("Image Files","jpeg","jpg","png","tif"));
 				chooser.setAcceptAllFileFilterUsed(false);
 				chooser.setSelectedFile(saveFile);
 				int rval = chooser.showSaveDialog(export);
